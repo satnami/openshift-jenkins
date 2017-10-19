@@ -32,7 +32,7 @@ podTemplate(
         
         stage ('DEV - Image build'){
             echo 'Building docker image and deploying to Dev'
-            buildApp('openshift-jenkins-dev', "server")
+            buildApp('jenkins-openshift-dev', 'server')
             echo "This is the build number: ${env.BUILD_NUMBER}"
         }
         
@@ -48,7 +48,7 @@ podTemplate(
         
         stage ('QA - Promote image'){
             echo 'Deploying to QA'
-            promoteImage('openshift-jenkins-dev', 'openshift-jenkins-qa', 'server', 'latest')
+            promoteImage('jenkins-openshift-dev', 'jenkins-openshift-qa', 'server', 'latest')
         }
     
         stage ('Wait for approval'){
@@ -57,12 +57,12 @@ podTemplate(
     
         stage ('PRD - Promote image'){
             echo 'Deploying to production'
-            promoteImage('openshift-jenkins-qa', 'openshift-jenkins', 'server', env.BUILD_NUMBER)
+            promoteImage('jenkins-openshift-qa', 'jenkins-openshift', 'server', env.BUILD_NUMBER)
         }
 
         stage ('PRD - Canary Deploy'){
             echo 'Performing a canary deployment'
-            canaryDeploy('openshift-jenkins', 'server', env.BUILD_NUMBER)
+            canaryDeploy('jenkins-openshift', 'server', env.BUILD_NUMBER)
         }
     }
 }
