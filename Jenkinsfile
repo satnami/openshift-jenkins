@@ -8,11 +8,11 @@ podTemplate(
 
     node("myJenkins") {
 
-        @Library('github.com/redhat-helloworld-msa/jenkins-library@master') _
+        @Library("github.com/satnami/openshift-jenkins@master") _
         
         stage ('SCM checkout'){
             echo 'Checking out git repository'
-            checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/satnami/openshift-jenkins']]])
+            checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: "https://github.com/satnami/openshift-jenkins"]]])
         }
         
         stage ('Swagger Dependencies'){
